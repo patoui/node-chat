@@ -21,7 +21,7 @@ let rawdata = fs.readFileSync(user_config);
 let users = rawdata.length ? JSON.parse(rawdata) : {};
 
 function updateUsers(username, data) {
-    if (user[username] === undefined) {
+    if (users[username] === undefined) {
         users[username] = data;
 
         fs.writeFile(
@@ -46,9 +46,8 @@ io.on('connection', (socket) => {
         type: 'info',
     };
 
-    updateUsers(username, {timestamp: data.timestamp});
-
     socket.emit('login', data);
     socket.broadcast.emit('user joined', data);
+    updateUsers(username, {timestamp: data.timestamp});
   });
 });
