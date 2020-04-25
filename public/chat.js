@@ -1,6 +1,34 @@
 window.onload = function () {
     var socket = window.socket = io();
 
+    var escapeChars = {
+        '¢' : 'cent',
+        '£' : 'pound',
+        '¥' : 'yen',
+        '€': 'euro',
+        '©' :'copy',
+        '®' : 'reg',
+        '<' : 'lt',
+        '>' : 'gt',
+        '"' : 'quot',
+        '&' : 'amp',
+        '\'' : '#39'
+    };
+
+    var regexString = '[';
+    for(var key in escapeChars) {
+        regexString += key;
+    }
+    regexString += ']';
+
+    var regex = new RegExp( regexString, 'g');
+
+    function escapeHTML(str) {
+        return str.replace(regex, function(m) {
+            return '&' + escapeChars[m] + ';';
+        });
+    };
+
     function addMessage(message) {
         let chat = document.querySelector('#chat');
         let wrapper = document.createElement('div');
@@ -44,13 +72,10 @@ window.onload = function () {
     }
 
     function startChat() {
-      socket.emit('add user', localStorage.getItem('username'));
-
-      socket.on('login', (data) => addMessage(data));
-
-      socket.on('new message', (data) => addMessage(data));
-
-      socket.on('user joined', (data) => addMessage(data));
+        socket.emit('add user', localStorage.getItem('username'));
+        socket.on('login', (data) => addMessage(data));
+        socket.on('new message', (data) => addMessage(data));
+        socket.on('user joined', (data) => addMessage(data));
     }
 
     function handleNewMessage() {
@@ -82,7 +107,7 @@ window.onload = function () {
         while (!username) {
             username = window.prompt('What is your username?\n\nBy click \'OK\' you consent you are age of majority in your respective country.');
             if (username && username.constructor === String) {
-                username = username.trim();
+                username = escapeHTML(username.trim());
             }
         }
         localStorage.setItem('username', username);
@@ -94,7 +119,7 @@ window.onload = function () {
         while (!username) {
             username = window.prompt('What is your username?');
             if (username && username.constructor === String) {
-                username = username.trim();
+                username = escapeHTML(username.trim());
             }
         }
         localStorage.setItem('username', username);
