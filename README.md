@@ -11,3 +11,5 @@ npm start
 ```
 
 That's it! You should be able to visit 127.0.0.1:3000 and see the chat :)
+
+The default user is `secret` and password is `secret`
