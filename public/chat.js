@@ -80,7 +80,10 @@ window.onload = function () {
     } else {
         let username;
         while (!username) {
-            username = window.prompt('What is your username?\n\nBy click \'OK\' you consent you are age of majority in your respective country.').trim();
+            username = window.prompt('What is your username?\n\nBy click \'OK\' you consent you are age of majority in your respective country.');
+            if (username && username.constructor === String) {
+                username = username.trim();
+            }
         }
         localStorage.setItem('username', username);
         startChat();
@@ -89,7 +92,10 @@ window.onload = function () {
     document.querySelector('#edit_username').addEventListener('click', function () {
         let username;
         while (!username) {
-            username = window.prompt('What is your username?').trim();
+            username = window.prompt('What is your username?');
+            if (username && username.constructor === String) {
+                username = username.trim();
+            }
         }
         localStorage.setItem('username', username);
     });
