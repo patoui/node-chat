@@ -21,13 +21,15 @@ let rawdata = fs.readFileSync(user_config);
 let users = rawdata.length ? JSON.parse(rawdata) : {};
 
 function updateUsers(username, data) {
-    users[username] = data;
+    if (user[username] === undefined) {
+        users[username] = data;
 
-    fs.writeFile(
-        user_config,
-        JSON.stringify(users),
-        (err) => { if (err) throw err; }
-    );
+        fs.writeFile(
+            user_config,
+            JSON.stringify(users),
+            (err) => { if (err) throw err; }
+        );
+    }
 }
 
 // Websocket
