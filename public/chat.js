@@ -80,7 +80,7 @@ window.onload = function () {
     } else {
         let username;
         while (!username) {
-            username = window.prompt('What is your username?').trim();
+            username = window.prompt('What is your username?\n\nBy click \'OK\' you consent you are age of majority in your respective country.').trim();
         }
         localStorage.setItem('username', username);
         startChat();
